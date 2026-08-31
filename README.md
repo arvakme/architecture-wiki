@@ -6,6 +6,8 @@
 
 [中文](./README.zh-CN.md) · [Live Demo (Chinese)](https://suge8.github.io/architecture-wiki/demo/) · [3D prototype](./docs/prototype-3d/)
 
+Default visualization is the 2D isometric SVG. Ask for 3D, or both, when building a wiki — same wiki + `verify.mjs`, different shells.
+
 <img src="docs/assets/hero.png" width="92%" alt="Isometric city rendered by Architecture Wiki: districts, module buildings, runtime flows, health score and wiki panel">
 
 </div>
@@ -37,7 +39,7 @@ Wherever the wiki cites a file or names a function, it records a **content finge
 Paste this to your agent:
 
 ```text
-Install the skills from https://github.com/Suge8/architecture-wiki
+Install the skills from https://github.com/arvakme/architecture-wiki
 ```
 
 ## Usage

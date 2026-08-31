@@ -1,6 +1,15 @@
 # Architecture HTML render spec
 
-Rendering is template-driven so any repo, any agent produces a near-identical interface: copy [templates/architecture.html](./templates/architecture.html), replace `__ARCH_DATA__` with the data JSON, `__TITLE__` with the title, `__WIKI_DIGEST__` with the output of `node docs/architecture/verify.mjs --digest`, and write `docs/architecture/architecture.html`; also save the data JSON as `docs/architecture/data.json` (a derived artifact, updated with every render, for incremental tweaks and diffs). The visual language is entirely fixed in the template: warm-paper single theme (paper background + ink-green accent, sage/terracotta/mist-blue districts), isometric city, overview/multi-scenario switching with white light streaks, node focus showing its cross-scenario data flow, sidebar group folding and filtering, both side panels collapsible, pan and zoom; health-flagged nodes carry warning badges (rooftop and sidebar) that jump to the matching health page section. To change visuals, change the template — never customize per repo.
+Rendering is template-driven. **One `data.json`, two shells**:
+
+| Mode | When | Template | Output | Constraints |
+| --- | --- | --- | --- | --- |
+| **2D** (default) | always | [templates/architecture.html](./templates/architecture.html) | `docs/architecture/architecture.html` | single-file, no external resources; `open` works |
+| **3D** (optional) | user asks for 3D / both | [templates/3d/](./templates/3d/) | `docs/architecture/3d/{index.html,city.js}` | reads `../data.json`; three.js from jsDelivr; needs a static server |
+
+2D: replace `__ARCH_DATA__` with the data JSON, `__TITLE__` with the title, `__WIKI_DIGEST__` with the output of `node docs/architecture/verify.mjs --digest`. Also save the data JSON as `docs/architecture/data.json` (a derived artifact, updated with every render, for incremental tweaks and diffs). The visual language is entirely fixed in the 2D template: warm-paper single theme (paper background + ink-green accent, sage/terracotta/mist-blue districts), isometric city, overview/multi-scenario switching with white light streaks, node focus showing its cross-scenario data flow, sidebar group folding and filtering, both side panels collapsible, pan and zoom; health-flagged nodes carry warning badges (rooftop and sidebar) that jump to the matching health page section. To change 2D visuals, change that template — never customize per repo.
+
+3D is an ortho Three.js city experiment; nameplate collision is still rough. Do not make it the default and do not skip verify. Layout geometry red lines still follow the isometric 2D constraints below when writing `data.json` — 3D is only a different shell.
 
 **Zero hand-written claims**: every statement about the codebase in the HTML is either embedded wiki page text rendered directly, or deterministically derived from graph data (upstream/downstream, scenario participation, district/module/file counts and line totals). The data JSON contains no independently written feature/mechanism prose and no UI usage instructions (interaction is self-explanatory). If content isn't good enough, fix the wiki page — never pad the JSON.
 

@@ -11,6 +11,8 @@
 
 Install exactly one variant, matching the language the user speaks to you: Chinese conversation → `skills/architecture-wiki/`, English → `skills/architecture-wiki-en/`; ask only when you can't tell. Copy the whole directory into the agent's skills folder (e.g. `~/.agents/skills/` or `~/.claude/skills/`); no build step.
 
+Pi 工作站 [arvak-ai-dev-workflow](https://github.com/arvakme/arvak-ai-dev-workflow) vendor 中文变体到 `packages/skills/development/architecture-wiki`。改本仓库再拷过去。可视化默认 2D，3D 可选。
+
 ## Contributing
 
 中文目录是唯一编辑点：skill 文档先改中文、再同步英文译文；templates/scripts 只改中文目录，改完跑 `scripts/sync-variants.sh` 刷新英文侧机械副本（脚本自带逐字节校验）。改模板后先跑 `skills/architecture-wiki/scripts/render-smoke.mjs`（中英双语烟测），再按 RENDER.md 的人工清单过交互。决策记录在 `docs/adr/`。

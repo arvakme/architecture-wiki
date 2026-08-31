@@ -6,6 +6,8 @@
 
 [English](./README.md) · [在线 Demo](https://suge8.github.io/architecture-wiki/demo/) · [3D 实验](./docs/prototype-3d/)
 
+可视化默认是 2D 等距 SVG；要 3D 正交城或两种都要，建 wiki 时跟 agent 说一声。wiki 正文和 `verify.mjs` 共用，只换渲染壳。
+
 <img src="docs/assets/hero.png" width="92%" alt="Architecture Wiki 渲染的等距城市：分区、模块建筑、运行流连线、体检评分与 wiki 面板">
 
 </div>
@@ -37,7 +39,7 @@ Wiki 代码引用了文件、点名了函数，都记着 **内容指纹**，文�
 将以下粘贴发送给 Agent：
 
 ```text
-Install the skills from https://github.com/Suge8/architecture-wiki
+Install the skills from https://github.com/arvakme/architecture-wiki
 ```
 
 ## 使用

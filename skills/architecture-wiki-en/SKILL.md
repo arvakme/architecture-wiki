@@ -1,7 +1,7 @@
 ---
 name: architecture-wiki-en
 disable-model-invocation: true
-description: Build and maintain docs/architecture/ in a target repo — a Markdown wiki as the source of truth + a self-contained visualization + a staleness check wired into lint/CI, with a dead-code/cycles/hotspots health page.
+description: Build and maintain docs/architecture/ in a target repo — a Markdown wiki as the source of truth + 2D isometric visualization (default) or optional 3D ortho city + a staleness check wired into lint/CI, with a dead-code/cycles/hotspots health page.
 compatibility: Requires Node.js 18+ and git; JS/TS dependency graphs additionally need bun or npm.
 ---
 
@@ -19,7 +19,11 @@ Works for any language: verify relies only on git hashes and text checks. For de
 
 ```
 docs/architecture/
-├── architecture.html   # derived visualization, embeds wiki-digest
+├── architecture.html   # 2D isometric SVG, embeds wiki-digest
+├── data.json           # derived; shared by 2D and 3D
+├── 3d/                 # optional: ortho Three.js city, reads ../data.json
+│   ├── index.html
+│   └── city.js
 ├── verify.mjs          # copied from this skill's templates/, zero-dependency
 └── wiki/
     ├── index.md        # navigation + baseline commit + exemption list
@@ -60,7 +64,7 @@ verify checks: source files exist and hashes match (on mismatch it prints a unif
    Fill frontmatter per the conventions above. Done when: spot-check two pages — after reading you can answer "what does this module do, who uses it, which file do I read first to change it"; rewrite pages that fail. With ≥3 module pages and subagents available, read [FANOUT.md](./FANOUT.md) and parallelize; write the overview pages yourself.
 3. Health check: read [HEALTH.md](./HEALTH.md), run the commands, review, produce wiki/health.md and node health fields.
 4. Copy [templates/verify.mjs](./templates/verify.mjs) to `docs/architecture/verify.mjs`, run it until it passes.
-5. Render the HTML: read [RENDER.md](./RENDER.md), inject the data JSON into templates/architecture.html — never hand-write the interface. The data JSON must set `meta.lang: "en"`. Done when: verify passes (data-side problems are all hard-checked by verify; no browser validation needed). Then `open docs/architecture/architecture.html` to show the user (first build only; sync doesn't auto-open).
+5. Render the HTML: read [RENDER.md](./RENDER.md). **Default is 2D only** (`templates/architecture.html` → `architecture.html`). If the user asks for 3D, or both, also copy `templates/3d/` to `docs/architecture/3d/` using the same `data.json`. Never hand-write the interface. The data JSON must set `meta.lang: "en"`. Done when: verify passes (data-side problems are all hard-checked by verify; no browser validation needed). Then show the user (first build only; sync doesn't auto-open): 2D via `open docs/architecture/architecture.html`; 3D needs a static server (`fetch` fails on `file://`).
 6. Wire into lint: append `node docs/architecture/verify.mjs` to the repo's existing check entry (package.json scripts / justfile / Makefile / CI workflow), alongside existing lint and typecheck; don't embed it inside a linter plugin. If the repo's linter scans the whole tree, add `docs/architecture` to its ignore list — derived artifacts and the zero-dependency script aren't subject to project code style. Run the full check once to confirm they don't fight. If the repo has no check entry at all, create a minimal one that only runs verify (e.g. `"lint": "node docs/architecture/verify.mjs"` in package.json, or one CI step); verify is zero-dependency, needing only node + git.
 
 ## Sync (after code changes, or when verify fails)
@@ -68,4 +72,4 @@ verify checks: source files exist and hashes match (on mismatch it prints a unif
 1. Run `node docs/architecture/verify.mjs`: stale sources print a recorded-version → worktree unified diff; entries tagged "likely mechanical drift" can be skimmed. When no diff is possible (recorded blob not in the object store, e.g. changes from last sync were never committed), fall back to `git diff <baseline>.. -- <file>`.
 2. For each page rule on the diff, one of two: page claims affected → edit the body; confirmed unaffected (comments, formatting, implementation details that change no claims) → leave the body alone. New files reported by claim reconciliation get added to some page's covers, or into exclude with a stated reason. When verify says the health report is behind, rerun it per [HEALTH.md](./HEALTH.md) to refresh health.md and node badges. Never advance to the next step without reading the diff — running --sync is signing "these changes have been reviewed".
 3. `node docs/architecture/verify.mjs --sync`: refreshes all stale hash prefixes in one pass and advances baseline to current HEAD; semantic problems (vanished symbols, broken links) are never auto-fixed and still error for manual handling.
-4. Re-render architecture.html only if you changed body text (the digest covers body only; hash refreshes don't count; get the digest from `node docs/architecture/verify.mjs --digest`). Finish by running verify to green.
+4. Re-render only if you changed body text: rewrite `architecture.html` for 2D; if `3d/` already exists it just rereads the same `data.json` (the digest covers body only; hash refreshes don't count; get the digest from `node docs/architecture/verify.mjs --digest`). Finish by running verify to green.
