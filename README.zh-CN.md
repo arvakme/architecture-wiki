@@ -4,7 +4,7 @@
 
 **让文档屎山退休：代码一变立刻发现，架构咋能这么清晰？**
 
-[English](./README.md) · [在线 Demo](https://suge8.github.io/architecture-wiki/demo/)
+[English](./README.md) · [在线 Demo](https://suge8.github.io/architecture-wiki/demo/) · [3D 实验](./docs/prototype-3d/)
 
 <img src="docs/assets/hero.png" width="92%" alt="Architecture Wiki 渲染的等距城市：分区、模块建筑、运行流连线、体检评分与 wiki 面板">
 

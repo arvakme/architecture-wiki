@@ -4,7 +4,7 @@
 
 **Retire your doc rot: code changes surface instantly — how did architecture get this clear?**
 
-[中文](./README.zh-CN.md) · [Live Demo (Chinese)](https://suge8.github.io/architecture-wiki/demo/)
+[中文](./README.zh-CN.md) · [Live Demo (Chinese)](https://suge8.github.io/architecture-wiki/demo/) · [3D prototype](./docs/prototype-3d/)
 
 <img src="docs/assets/hero.png" width="92%" alt="Isometric city rendered by Architecture Wiki: districts, module buildings, runtime flows, health score and wiki panel">
 
